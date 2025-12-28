@@ -351,11 +351,11 @@ Chúng tôi luôn chào đón mọi đóng góp! Để đóng góp:
 
 ## 👨‍💻 Tác Giả
 
-**Lê Tuấn Khá**
+**Lê Tuấn Kha**
 - MSSV: 110122086
-- Lớp: DH21IT02
-- Khoa: Kỹ thuật và Công nghệ
-- Trường: Đại học Trà Vinh
+- Lớp: DA22TTD
+- Khoa: Công nghệ thông tin
+- Trường: Trường Đại học Trà Vinh
 
 📧 Email: [110122086@sv.tvu.edu.vn](mailto:110122086@sv.tvu.edu.vn)  
 🔗 GitHub: [@LeTuanKhaTTD](https://github.com/LeTuanKhaTTD)  
@@ -367,13 +367,7 @@ Chúng tôi luôn chào đón mọi đóng góp! Để đóng góp:
 
 Dự án này được phân phối dưới **MIT License**. Xem file [LICENSE](LICENSE) để biết thêm chi tiết.
 
----
-
-## 🙏 Lời Cảm Ơn
-
-- **Trường Đại học Trà Vinh** - Cung cấp cơ sở hạ tầng và hỗ trợ
-- **Khoa Kỹ thuật và Công nghệ** - Hướng dẫn và góp ý
-- **Cộng đồng Open Source** - Các thư viện và tools tuyệt vời
+--
 
 ---
 
