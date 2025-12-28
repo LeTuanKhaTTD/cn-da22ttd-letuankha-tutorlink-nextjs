@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Login API</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; margin-top: 0; }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+        .quick-test {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .quick-btn {
+            padding: 8px 12px;
+            font-size: 13px;
+            background: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Test Login TutorLink</h1>
+        
+        <div class="quick-test">
+            <button class="quick-btn" onclick="testAdmin()">Test Admin</button>
+            <button class="quick-btn" onclick="testTutor()">Test Tutor</button>
+            <button class="quick-btn" onclick="testWrong()">Test Wrong</button>
+        </div>
+
+        <div class="form-group">
+            <label>API Base URL:</label>
+            <input type="text" id="apiUrl" value="http://localhost:5000/api">
+            <small style="color: #666;">Backend đang chạy tại port 5000</small>
+        </div>
+
+        <div class="form-group">
+            <label>Email:</label>
+            <input type="email" id="email" value="admin@tutorlink.vn" placeholder="Nhập email">
+        </div>
+
+        <div class="form-group">
+            <label>Password:</label>
+            <input type="password" id="password" value="admin123" placeholder="Nhập mật khẩu">
+        </div>
+
+        <button onclick="testLogin()" id="loginBtn">Đăng nhập</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function testAdmin() {
+            document.getElementById('email').value = 'admin@tutorlink.vn';
+            document.getElementById('password').value = 'admin123';
+        }
+
+        function testTutor() {
+            document.getElementById('email').value = '1101210001@st.tvu.edu.vn';
+            document.getElementById('password').value = '123456';
+        }
+
+        function testWrong() {
+            document.getElementById('email').value = 'wrong@example.com';
+            document.getElementById('password').value = 'wrongpass';
+        }
+
+        async function testLogin() {
+            const apiUrl = document.getElementById('apiUrl').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('result');
+            const loginBtn = document.getElementById('loginBtn');
+
+            if (!email || !password) {
+                showResult('error', 'Vui lòng nhập email và password');
+                return;
+            }
+
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Đang đăng nhập...';
+            resultDiv.style.display = 'none';
+
+            try {
+                console.log('🔐 Testing login...', { email });
+                
+                const response = await fetch(`${apiUrl}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        mat_khau: password
+                    })
+                });
+
+                const data = await response.json();
+                
+                console.log('📡 Response:', data);
+
+                if (response.ok && data.success) {
+                    const user = data.data.user;
+                    const token = data.data.token;
+                    
+                    showResult('success', `
+                        <strong>✅ Đăng nhập thành công!</strong><br><br>
+                        <strong>User Info:</strong><br>
+                        - ID: ${user.id}<br>
+                        - Email: ${user.email}<br>
+                        - Tên: ${user.ho_ten}<br>
+                        - Vai trò: ${user.vai_tro}<br>
+                        - Trạng thái: ${user.trang_thai}<br>
+                        ${user.ma_sinh_vien ? `- MSSV: ${user.ma_sinh_vien}<br>` : ''}
+                        <br>
+                        <strong>Token:</strong><br>
+                        <pre>${token.substring(0, 50)}...</pre>
+                    `);
+                    
+                    // Test token by calling /auth/me
+                    setTimeout(() => testMe(apiUrl, token), 1000);
+                } else {
+                    showResult('error', `
+                        <strong>❌ Đăng nhập thất bại</strong><br><br>
+                        ${data.message || 'Lỗi không xác định'}<br><br>
+                        <strong>Response:</strong>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `);
+                }
+            } catch (error) {
+                console.error('❌ Error:', error);
+                showResult('error', `
+                    <strong>❌ Lỗi kết nối</strong><br><br>
+                    ${error.message}<br><br>
+                    <strong>Chi tiết:</strong>
+                    <pre>${error.stack}</pre>
+                `);
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Đăng nhập';
+            }
+        }
+
+        async function testMe(apiUrl, token) {
+            try {
+                console.log('👤 Testing /auth/me...');
+                const response = await fetch(`${apiUrl}/auth/me`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await response.json();
+                console.log('👤 /auth/me response:', data);
+
+                if (data.success) {
+                    console.log('✅ Token validation successful!');
+                }
+            } catch (error) {
+                console.error('❌ Token validation failed:', error);
+            }
+        }
+
+        function showResult(type, message) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = type;
+            resultDiv.innerHTML = message;
+            resultDiv.style.display = 'block';
+        }
+
+        // Test connection on load
+        window.onload = async () => {
+            const apiUrl = document.getElementById('apiUrl').value;
+            try {
+                const response = await fetch(`${apiUrl}/health`);
+                const data = await response.json();
+                console.log('🏥 Health check:', data);
+            } catch (error) {
+                console.error('⚠️ Backend not responding:', error);
+                showResult('error', '⚠️ Không thể kết nối với backend. Vui lòng khởi động backend server.');
+            }
+        };
+    </script>
+</body>
+</html>

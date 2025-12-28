@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
+import { SUBJECT_OPTIONS, LEVEL_OPTIONS, BUDGET_OPTIONS } from '../constants/options'
 
 export interface SearchFilters {
   subject: string
@@ -13,10 +14,6 @@ interface SearchBarProps {
   onSearch?: (filters: SearchFilters) => void
   compact?: boolean
 }
-
-const SUBJECT_OPTIONS = ['Toán', 'Lý', 'Hóa', 'Tiếng Anh', 'Văn', 'Lập trình']
-const LEVEL_OPTIONS = ['Tiểu học', 'THCS', 'THPT', 'Đại học']
-const BUDGET_OPTIONS = ['< 200k', '200k - 300k', '300k - 500k', '> 500k']
 
 function SearchBar({ onSearch, compact }: SearchBarProps) {
   const [filters, setFilters] = useState<SearchFilters>({
@@ -73,7 +70,7 @@ function SearchBar({ onSearch, compact }: SearchBarProps) {
           <span>Khu vực</span>
           <input
             type="text"
-            placeholder="Quận Bình Thạnh, TP.HCM"
+            placeholder="Nhập địa điểm"
             value={filters.location}
             onChange={(event) =>
               setFilters((prev) => ({ ...prev, location: event.target.value }))

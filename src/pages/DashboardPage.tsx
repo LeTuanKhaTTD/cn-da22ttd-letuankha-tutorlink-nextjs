@@ -3,6 +3,14 @@ import PostCard from '../components/PostCard'
 import TutorCard from '../components/TutorCard'
 import { conversations, posts, tutors } from '../data/mockData'
 
+// Legacy types for mockData compatibility
+interface LegacyConversation {
+  id: string
+  with?: string
+  lastMessage?: string
+  timestamp?: string
+}
+
 function DashboardPage() {
   const [role, setRole] = useState<'parent' | 'tutor'>('parent')
   const parentHighlights = [
@@ -76,9 +84,13 @@ function DashboardPage() {
             <section className="card">
               <h2>Gia sư đã ứng tuyển</h2>
               <div className="grid grid-2">
-                {tutors.slice(0, 2).map((tutor) => (
-                  <TutorCard key={tutor.id} tutor={tutor} />
-                ))}
+                {tutors.length === 0 ? (
+                  <p style={{ textAlign: 'center', color: '#64748b', padding: '2rem' }}>Chưa có gia sư nào.</p>
+                ) : (
+                  tutors.slice(0, 6).map((tutor) => (
+                    <TutorCard key={tutor.id} tutor={tutor} />
+                  ))
+                )}
               </div>
             </section>
           </div>
@@ -101,9 +113,13 @@ function DashboardPage() {
             <section className="card">
               <h2>Tin đã ứng tuyển</h2>
               <div className="stack">
-                {posts.slice(0, 2).map((post) => (
-                  <PostCard key={post.id} post={post} />
-                ))}
+                {posts.length === 0 ? (
+                  <p style={{ textAlign: 'center', color: '#64748b', padding: '2rem' }}>Chưa có yêu cầu nào.</p>
+                ) : (
+                  posts.slice(0, 6).map((post) => (
+                    <PostCard key={post.id} post={post} />
+                  ))
+                )}
               </div>
             </section>
           </div>
@@ -117,13 +133,13 @@ function DashboardPage() {
             </button>
           </header>
           <ul>
-            {conversations.map((conversation) => (
+            {(conversations as unknown as LegacyConversation[]).map((conversation) => (
               <li key={conversation.id}>
                 <div>
-                  <strong>{conversation.with}</strong>
-                  <p>{conversation.lastMessage}</p>
+                  <strong>{conversation.with || 'Người dùng'}</strong>
+                  <p>{conversation.lastMessage || ''}</p>
                 </div>
-                <span>{conversation.timestamp}</span>
+                <span>{conversation.timestamp || ''}</span>
               </li>
             ))}
           </ul>

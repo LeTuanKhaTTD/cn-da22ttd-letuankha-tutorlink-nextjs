@@ -1,0 +1,699 @@
+/* ========================================
+   POST CARD - BLUE THEME (Professional)
+   ======================================== */
+
+.post-card {
+  position: relative;
+  background: white;
+  border: 3px solid #3b82f6;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.15);
+  list-style: none;
+}
+
+.post-card *,
+.post-card *::before,
+.post-card *::after {
+  list-style: none;
+}
+
+.post-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #3b82f6);
+  background-size: 200% 100%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.post-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 32px rgba(59, 130, 246, 0.3);
+  border-color: #2563eb;
+}
+
+/* Header */
+.post-card-header {
+  padding: 0.625rem 0.875rem 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.625rem;
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  border-bottom: 2px solid #93c5fd;
+}
+
+.post-header-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.post-card-header h3 {
+  font-size: 1.0625rem;
+  font-weight: 800;
+  color: #0c4a6e;
+  margin: 0 0 0.1875rem;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  list-style: none;
+  text-shadow: 0 1px 2px rgba(12, 74, 110, 0.1);
+}
+
+.post-subtitle {
+  color: #334155;
+  font-size: 0.6875rem;
+  margin: 0;
+  font-weight: 600;
+  list-style: none;
+  line-height: 1.3;
+}
+
+.post-card-header .badge {
+  flex-shrink: 0;
+  padding: 0.25rem 0.625rem;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+}
+
+/* Body */
+.post-card-body {
+  padding: 0.625rem 0.875rem;
+  background: white;
+}
+
+.post-intro {
+  color: #0f172a;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+  list-style: none;
+}
+
+/* Meta Grid */
+.post-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4375rem;
+  margin-bottom: 0.5rem;
+}
+
+.post-meta-card {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 2px solid #93c5fd;
+  border-radius: 6px;
+  padding: 0.4375rem 0.3125rem;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.post-meta-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.2);
+  border-color: #3b82f6;
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+}
+
+.post-meta-card small {
+  display: block;
+  font-size: 0.5625rem;
+  color: #64748b;
+  font-weight: 600;
+  margin-bottom: 0.1875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.post-meta-card span {
+  display: block;
+  color: #0c4a6e;
+  font-weight: 800;
+  font-size: 0.8125rem;
+  text-shadow: 0 1px 2px rgba(12, 74, 110, 0.08);
+}
+
+/* Tags */
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.post-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  border: 2px solid #3b82f6;
+  border-radius: 10px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+}
+
+.post-chip:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(59, 130, 246, 0.4);
+}
+
+.post-chip.chip-muted {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+  color: #64748b;
+  font-weight: 600;
+}
+
+/* Footer */
+.post-card-footer {
+  padding: 0.5rem 0.875rem;
+  background: #f8fafc;
+  border-top: 2px solid #e0f2fe;
+}
+
+.post-date {
+  display: flex;
+  align-items: center;
+  color: #475569;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  margin-bottom: 0.4375rem;
+  list-style: none;
+}
+
+.post-date::before {
+  content: '📅';
+  margin-right: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.post-actions {
+  display: flex;
+  gap: 0.4375rem;
+}
+
+.post-actions .btn {
+  flex: 1;
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 0.4375rem 0.75rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  letter-spacing: 0.02em;
+}
+
+.post-actions .btn-secondary {
+  background: white;
+  color: #3b82f6;
+  border: 2px solid #3b82f6;
+}
+
+.post-actions .btn-secondary:hover {
+  background: #f0f9ff;
+  border-color: #2563eb;
+  color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.post-actions .btn-primary {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  border: 2px solid #3b82f6;
+}
+
+.post-actions .btn-primary:hover {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+}
+
+.owner-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 2px solid #e0f2fe;
+}
+
+.owner-actions .btn {
+  flex: 1;
+  font-size: 0.875rem;
+  padding: 0.625rem 1rem;
+  border-radius: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .post-meta-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .post-meta-card:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+  
+  .post-actions {
+    flex-direction: column;
+  }
+  
+  .owner-actions {
+    flex-direction: column;
+  }
+}
+
+
+.post-card {
+  position: relative;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 2px solid rgba(245, 158, 11, 0.3);
+  border-radius: var(--border-radius-xl);
+  overflow: hidden;
+  transition: all var(--transition-base);
+}
+
+/* Warm Gradient Border Effect */
+.post-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient-warm);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.post-card:hover::before {
+  opacity: 1;
+}
+
+/* Warm Hover Effect */
+.post-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-elevated),
+              0 0 40px rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+/* ========================================
+   HEADER - POST TITLE & STATUS
+   ======================================== */
+
+.post-card-header {
+  padding: 1.5rem 1.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  background: linear-gradient(180deg, 
+              rgba(245, 158, 11, 0.15) 0%, 
+              rgba(245, 158, 11, 0.05) 100%);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.post-card-header h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0 0 0.375rem;
+  line-height: 1.3;
+}
+
+.post-subtitle {
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Level Badge - Warm Theme */
+.post-card-header .badge {
+  flex-shrink: 0;
+  padding: 0.5rem 1rem;
+  background: var(--gradient-warm);
+  color: white;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: var(--shadow-sm);
+  white-space: nowrap;
+}
+
+/* ========================================
+   STATUS BADGES
+   ======================================== */
+
+.post-status-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.875rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: var(--shadow-sm);
+  z-index: 1;
+}
+
+.post-status-badge.open {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  animation: pulse-open 2s infinite;
+}
+
+.post-status-badge.closed {
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+  color: white;
+}
+
+.post-status-badge.urgent {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  animation: pulse-urgent 1.5s infinite;
+}
+
+@keyframes pulse-open {
+  0%, 100% {
+    box-shadow: var(--shadow-sm), 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+  50% {
+    box-shadow: var(--shadow-md), 0 0 0 6px rgba(16, 185, 129, 0);
+  }
+}
+
+@keyframes pulse-urgent {
+  0%, 100% {
+    box-shadow: var(--shadow-sm), 0 0 0 0 rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    box-shadow: var(--shadow-md), 0 0 0 6px rgba(239, 68, 68, 0);
+  }
+}
+
+/* ========================================
+   BODY - CONTENT & DETAILS
+   ======================================== */
+
+.post-card-body {
+  padding: 1.5rem;
+}
+
+.post-intro {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Meta Grid - Enhanced with Icons */
+.post-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.post-meta-card {
+  position: relative;
+  background: linear-gradient(135deg, #fed7aa 0%, #fef3c7 100%);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: var(--border-radius-md);
+  padding: 0.875rem;
+  transition: all var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  overflow: hidden;
+}
+
+/* Subtle hover gradient */
+.post-meta-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, 
+              rgba(245, 158, 11, 0.05) 0%, 
+              transparent 100%);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.post-meta-card:hover::before {
+  opacity: 1;
+}
+
+.post-meta-card:hover {
+  border-color: rgba(245, 158, 11, 0.25);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.post-meta-card small {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+  z-index: 1;
+}
+
+.post-meta-card span {
+  color: var(--color-text-primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Requirement Tags - Warm Accents */
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.post-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, 
+              rgba(245, 158, 11, 0.25) 0%, 
+              rgba(234, 88, 12, 0.25) 100%);
+  color: #92400e;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.post-chip:hover {
+  background: linear-gradient(135deg, 
+              rgba(245, 158, 11, 0.15) 0%, 
+              rgba(234, 88, 12, 0.15) 100%);
+  border-color: rgba(245, 158, 11, 0.4);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.post-chip.chip-muted {
+  background: rgba(0, 0, 0, 0.04);
+  color: var(--color-text-tertiary);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+/* ========================================
+   FOOTER - DATE & ACTIONS
+   ======================================== */
+
+.post-card-footer {
+  padding: 1rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-top: 1px solid rgba(245, 158, 11, 0.2);
+  background: linear-gradient(180deg, 
+              rgba(245, 158, 11, 0.05) 0%, 
+              rgba(245, 158, 11, 0.1) 100%);
+}
+
+.post-date {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-text-tertiary);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.post-date::before {
+  content: '📅';
+  font-size: 1rem;
+}
+
+/* Actions */
+.post-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.post-actions .btn {
+  flex: 1;
+  min-width: 120px;
+}
+
+.owner-actions {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.owner-actions .btn {
+  flex: 1;
+}
+
+/* ========================================
+   APPLICANT COUNTER
+   ======================================== */
+
+.post-applicants {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, 
+              rgba(59, 130, 246, 0.08) 0%, 
+              rgba(37, 99, 235, 0.08) 100%);
+  color: var(--color-primary);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.post-applicants::before {
+  content: '👥';
+  font-size: 1rem;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 768px) {
+  .post-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .post-card-header .badge {
+    align-self: flex-start;
+  }
+
+  .post-meta-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .post-actions {
+    flex-direction: column;
+  }
+
+  .post-actions .btn {
+    width: 100%;
+  }
+}
+
+/* ========================================
+   NEW/FEATURED POST HIGHLIGHT
+   ======================================== */
+
+.post-card.new {
+  background: linear-gradient(135deg, 
+              #ffffff 0%, 
+              #fef3c7 100%);
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+.post-card.new::before {
+  opacity: 1;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.new-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.375rem 0.875rem;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: var(--shadow-sm);
+  animation: pulse-new 2s infinite;
+}
+
+@keyframes pulse-new {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}

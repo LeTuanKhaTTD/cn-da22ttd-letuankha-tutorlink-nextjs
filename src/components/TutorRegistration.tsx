@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { authApi } from '../api/auth.api'
 import './TutorRegistration.css'
 
 interface RegistrationStep {
@@ -19,7 +20,8 @@ interface FormData {
   email: string
   password: string
   confirmPassword: string
-  
+  phone: string // Số điện thoại
+
   // Bước 2 - Thông tin sinh viên
   fullName: string
   studentId: string  // MSSV
@@ -27,11 +29,11 @@ interface FormData {
   faculty: string
   major: string
   academicYear: string
-  
+
   // Bước 3 - Ảnh đại diện
   avatar: File | null
   avatarPreview: string
-  
+
   // Bước 4 - Thông tin gia sư
   subjects: string[]
   levels: string[]
@@ -47,6 +49,7 @@ const TutorRegistration: React.FC = () => {
     email: '',
     password: '',
     confirmPassword: '',
+    phone: '',
     fullName: '',
     studentId: '',
     classCode: '',
@@ -79,29 +82,35 @@ const TutorRegistration: React.FC = () => {
     const newErrors: Record<string, string> = {}
 
     if (step === 1) {
-      if (!formData.email) newErrors.email = 'Vui lòng nhập email'
-      if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-        newErrors.email = 'Email không hợp lệ'
+      if (!formData.email) newErrors.email = 'Vui lòng nhập email';
+      else if (!formData.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+        newErrors.email = 'Email không hợp lệ';
+      } else if (!formData.email.endsWith('@st.tvu.edu.vn')) {
+        newErrors.email = 'Email phải là @st.tvu.edu.vn';
       }
-      if (!formData.password) newErrors.password = 'Vui lòng nhập mật khẩu'
-      if (formData.password.length < 6) {
-        newErrors.password = 'Mật khẩu phải có ít nhất 6 ký tự'
+      if (!formData.password) newErrors.password = 'Vui lòng nhập mật khẩu';
+      else if (formData.password.length < 6) {
+        newErrors.password = 'Mật khẩu phải có ít nhất 6 ký tự';
       }
       if (formData.password !== formData.confirmPassword) {
-        newErrors.confirmPassword = 'Mật khẩu không khớp'
+        newErrors.confirmPassword = 'Mật khẩu không khớp';
+      }
+      if (!formData.phone) newErrors.phone = 'Vui lòng nhập số điện thoại';
+      else if (!/^0\d{9}$/.test(formData.phone)) {
+        newErrors.phone = 'Số điện thoại phải có 10 số, bắt đầu bằng 0';
       }
     }
 
     if (step === 2) {
-      if (!formData.fullName) newErrors.fullName = 'Vui lòng nhập họ tên'
-      if (!formData.studentId) newErrors.studentId = 'Vui lòng nhập MSSV'
-      if (!formData.studentId.match(/^\d{9}$/)) {
-        newErrors.studentId = 'MSSV phải có 9 chữ số'
+      if (!formData.fullName) newErrors.fullName = 'Vui lòng nhập họ tên';
+      if (!formData.studentId) newErrors.studentId = 'Vui lòng nhập MSSV';
+      else if (!/^11\d{8}$/.test(formData.studentId)) {
+        newErrors.studentId = 'MSSV phải có 10 số, bắt đầu bằng 11';
       }
-      if (!formData.classCode) newErrors.classCode = 'Vui lòng nhập mã lớp'
-      if (!formData.faculty) newErrors.faculty = 'Vui lòng chọn khoa'
-      if (!formData.major) newErrors.major = 'Vui lòng nhập ngành học'
-      if (!formData.academicYear) newErrors.academicYear = 'Vui lòng nhập năm học'
+      if (!formData.classCode) newErrors.classCode = 'Vui lòng nhập mã lớp';
+      if (!formData.faculty) newErrors.faculty = 'Vui lòng chọn khoa';
+      if (!formData.major) newErrors.major = 'Vui lòng nhập ngành học';
+      if (!formData.academicYear) newErrors.academicYear = 'Vui lòng nhập năm học';
     }
 
     if (step === 3) {
@@ -112,12 +121,17 @@ const TutorRegistration: React.FC = () => {
 
     if (step === 4) {
       if (formData.subjects.length === 0) {
-        newErrors.subjects = 'Vui lòng chọn ít nhất 1 môn học'
+        newErrors.subjects = 'Vui lòng chọn ít nhất 1 môn học';
       }
       if (formData.levels.length === 0) {
-        newErrors.levels = 'Vui lòng chọn ít nhất 1 cấp độ'
+        newErrors.levels = 'Vui lòng chọn ít nhất 1 cấp độ';
       }
-      if (!formData.bio) newErrors.bio = 'Vui lòng nhập giới thiệu'
+      if (!formData.bio) newErrors.bio = 'Vui lòng nhập giới thiệu';
+      if (!formData.rate || isNaN(Number(formData.rate))) {
+        newErrors.rate = 'Vui lòng nhập học phí mong muốn';
+      } else if (Number(formData.rate) < 50000 || Number(formData.rate) > 500000) {
+        newErrors.rate = 'Học phí phải từ 50,000 đến 500,000';
+      }
     }
 
     setErrors(newErrors)
@@ -154,25 +168,36 @@ const TutorRegistration: React.FC = () => {
     }))
   }
 
-  const handleSubmit = () => {
-    if (validateStep(4)) {
-      console.log('Form submitted:', formData)
-      
-      // Hiển thị thông báo chi tiết
-      alert(`✅ Đăng ký thành công!
-
-📋 Thông tin đã gửi:
-- MSSV: ${formData.studentId}
-- Mã lớp: ${formData.classCode}
-- Khoa: ${formData.faculty}
-
-⏳ Bước tiếp theo:
-Admin sẽ xác thực MSSV của bạn trong vòng 24-48 giờ. Bạn sẽ nhận được email thông báo khi hồ sơ được phê duyệt.
-
-📧 Kiểm tra email: ${formData.email}`)
-      
-      // TODO: Gửi dữ liệu lên server
-      // Sau khi gửi thành công, chuyển hướng về trang chủ hoặc dashboard
+  const handleSubmit = async () => {
+    if (!validateStep(4)) return;
+    try {
+      // Chuẩn hóa dữ liệu gửi lên API
+      const payload = {
+        email: formData.email,
+        mat_khau: formData.password,
+        ho_ten: formData.fullName,
+        so_dien_thoai: formData.phone,
+        vai_tro: 'gia_su' as 'gia_su',
+        ma_sinh_vien: formData.studentId,
+        ma_lop: formData.classCode,
+        khoa: formData.faculty,
+        nganh_hoc: formData.major,
+        nam_hoc: formData.academicYear,
+        hoc_phi_gio: Number(formData.rate) || 0,
+        gioi_thieu: formData.bio,
+        hinh_thuc: formData.mode,
+        kinh_nghiem: formData.experience
+        // Có thể bổ sung các trường khác nếu backend yêu cầu
+      };
+      const res = await authApi.registerTutor(payload);
+      if (res.success) {
+        alert('✅ Đăng ký thành công! Hồ sơ của bạn đang chờ admin xác thực MSSV.');
+        window.location.href = '/login';
+      } else {
+        alert('❌ Đăng ký thất bại: ' + (res.message || 'Vui lòng kiểm tra lại thông tin.'));
+      }
+    } catch (err: any) {
+      alert('❌ Đăng ký thất bại: ' + (err?.response?.data?.message || err?.message || 'Lỗi không xác định.'));
     }
   }
 
@@ -211,6 +236,17 @@ Admin sẽ xác thực MSSV của bạn trong vòng 24-48 giờ. Bạn sẽ nh�
                 placeholder="Nhập lại mật khẩu"
               />
               {errors.confirmPassword && <span className="error">{errors.confirmPassword}</span>}
+            </div>
+            <div className="form-group">
+              <label>Số điện thoại <span className="required">*</span></label>
+              <input
+                type="tel"
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                placeholder="0xxxxxxxxx"
+                maxLength={10}
+              />
+              {errors.phone && <span className="error">{errors.phone}</span>}
             </div>
           </div>
         )

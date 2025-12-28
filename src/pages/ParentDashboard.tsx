@@ -1,83 +1,107 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
+import { postsApi, applicationsApi } from '../api/posts.api'
 import './ParentDashboard.css'
 
-// Mock data - sẽ thay bằng API call
-const mockParentData = {
-  name: 'Nguyễn Văn A',
-  totalPosts: 3,
-  activePosts: 2,
-  applications: 12,
-  hiredTutors: 1,
+interface ParentStats {
+  totalPosts: number
+  activePosts: number
+  applications: number
+  hiredTutors: number
 }
-
-const mockPosts = [
-  {
-    id: 1,
-    title: 'Cần gia sư Toán lớp 10',
-    subject: 'Toán',
-    grade: 'Lớp 10',
-    fee: '150,000 VNĐ/buổi',
-    applicationsCount: 5,
-    status: 'active',
-    createdAt: '2025-10-20',
-  },
-  {
-    id: 2,
-    title: 'Tìm gia sư Tiếng Anh lớp 8',
-    subject: 'Tiếng Anh',
-    grade: 'Lớp 8',
-    fee: '120,000 VNĐ/buổi',
-    applicationsCount: 7,
-    status: 'active',
-    createdAt: '2025-10-18',
-  },
-]
-
-const mockApplications = [
-  {
-    id: 1,
-    tutorName: 'Trần Thị B',
-    tutorAvatar: 'https://i.pravatar.cc/150?img=5',
-    postTitle: 'Cần gia sư Toán lớp 10',
-    subject: 'Toán',
-    coverLetter: 'Em là sinh viên năm 3 khoa Sư phạm Toán, có 2 năm kinh nghiệm dạy kèm...',
-    appliedAt: '2025-10-21',
-    status: 'pending',
-    tutorRating: 4.8,
-  },
-  {
-    id: 2,
-    tutorName: 'Lê Văn C',
-    tutorAvatar: 'https://i.pravatar.cc/150?img=12',
-    postTitle: 'Tìm gia sư Tiếng Anh lớp 8',
-    subject: 'Tiếng Anh',
-    coverLetter: 'Em tốt nghiệp chuyên Anh, IELTS 7.5, có kinh nghiệm dạy THCS...',
-    appliedAt: '2025-10-19',
-    status: 'pending',
-    tutorRating: 4.9,
-  },
-]
 
 const ParentDashboard = () => {
   const [activeTab, setActiveTab] = useState<'posts' | 'applications' | 'hired'>('posts')
   const [isLoading, setIsLoading] = useState(true)
+  const { user, isAuthenticated } = useAuth()
+  const navigate = useNavigate()
+  
+  const [stats, setStats] = useState<ParentStats>({
+    totalPosts: 0,
+    activePosts: 0,
+    applications: 0,
+    hiredTutors: 0,
+  })
+  const [posts, setPosts] = useState<any[]>([])
+  const [applications, setApplications] = useState<any[]>([])
 
   useEffect(() => {
-    // Simulate API call
-    setTimeout(() => setIsLoading(false), 500)
-  }, [])
+    // Check authentication và role
+    if (!isAuthenticated) {
+      navigate('/login')
+      return
+    }
+    if (user?.vai_tro !== 'phu_huynh') {
+      alert('Bạn không có quyền truy cập trang này!')
+      navigate('/')
+      return
+    }
+    
+    fetchData()
+  }, [isAuthenticated, user, navigate])
 
-  const handleAcceptApplication = (applicationId: number) => {
-    // TODO: API call to accept application
-    console.log('Accept application:', applicationId)
-    alert('Đã chấp nhận đơn ứng tuyển!')
+  const fetchData = async () => {
+    try {
+      setIsLoading(true)
+      
+      // Fetch my posts
+      const myPosts = await postsApi.getMyPosts()
+      setPosts(myPosts || [])
+      
+      // Fetch all applications for my posts
+      const allApplications: any[] = []
+      for (const post of myPosts || []) {
+        try {
+          const postApps = await applicationsApi.getApplicationsByPost(post.id)
+          allApplications.push(...(postApps || []))
+        } catch (err) {
+          console.error(`Error fetching applications for post ${post.id}:`, err)
+        }
+      }
+      setApplications(allApplications)
+      
+      // Calculate stats
+      const activePosts = (myPosts || []).filter((p: any) => p.trang_thai === 'mo').length
+      const acceptedApps = allApplications.filter((a: any) => a.trang_thai === 'chap_nhan').length
+      
+      setStats({
+        totalPosts: myPosts?.length || 0,
+        activePosts,
+        applications: allApplications.length,
+        hiredTutors: acceptedApps
+      })
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
-  const handleRejectApplication = (applicationId: number) => {
-    // TODO: API call to reject application
-    console.log('Reject application:', applicationId)
-    alert('Đã từ chối đơn ứng tuyển!')
+  const handleAcceptApplication = async (applicationId: string) => {
+    if (!confirm('Xác nhận chấp nhận đơn ứng tuyển này?')) return
+    
+    try {
+      await applicationsApi.updateApplicationStatus(applicationId, 'chap_nhan')
+      alert('✅ Đã chấp nhận đơn ứng tuyển!')
+      fetchData() // Refresh data
+    } catch (error) {
+      console.error('Error accepting application:', error)
+      alert('❌ Lỗi khi chấp nhận đơn')
+    }
+  }
+
+  const handleRejectApplication = async (applicationId: string) => {
+    if (!confirm('Xác nhận từ chối đơn ứng tuyển này?')) return
+    
+    try {
+      await applicationsApi.updateApplicationStatus(applicationId, 'tu_choi')
+      alert('✅ Đã từ chối đơn ứng tuyển!')
+      fetchData() // Refresh data
+    } catch (error) {
+      console.error('Error rejecting application:', error)
+      alert('❌ Lỗi khi từ chối đơn')
+    }
   }
 
   if (isLoading) {
@@ -94,7 +118,8 @@ const ParentDashboard = () => {
       {/* Header */}
       <div className="dashboard-header">
         <h1>👪 Dashboard Phụ Huynh</h1>
-        <p className="welcome-text">Xin chào, {mockParentData.name}!</p>
+        <p className="welcome-text">Xin chào, {user?.ho_ten || 'Phụ huynh'}!</p>
+        <p className="user-email">📧 {user?.email}</p>
       </div>
 
       {/* Stats Cards */}
@@ -102,28 +127,28 @@ const ParentDashboard = () => {
         <div className="stat-card">
           <div className="stat-icon">📝</div>
           <div className="stat-content">
-            <h3>{mockParentData.totalPosts}</h3>
+            <h3>{stats.totalPosts}</h3>
             <p>Bài đăng</p>
           </div>
         </div>
         <div className="stat-card">
           <div className="stat-icon">✅</div>
           <div className="stat-content">
-            <h3>{mockParentData.activePosts}</h3>
+            <h3>{stats.activePosts}</h3>
             <p>Đang tuyển</p>
           </div>
         </div>
         <div className="stat-card">
           <div className="stat-icon">📨</div>
           <div className="stat-content">
-            <h3>{mockParentData.applications}</h3>
+            <h3>{stats.applications}</h3>
             <p>Đơn ứng tuyển</p>
           </div>
         </div>
         <div className="stat-card">
           <div className="stat-icon">🎓</div>
           <div className="stat-content">
-            <h3>{mockParentData.hiredTutors}</h3>
+            <h3>{stats.hiredTutors}</h3>
             <p>Gia sư hiện tại</p>
           </div>
         </div>
@@ -151,7 +176,7 @@ const ParentDashboard = () => {
           className={`tab-btn ${activeTab === 'applications' ? 'active' : ''}`}
           onClick={() => setActiveTab('applications')}
         >
-          📨 Đơn ứng tuyển ({mockApplications.length})
+          📨 Đơn ứng tuyển ({applications.length})
         </button>
         <button
           className={`tab-btn ${activeTab === 'hired' ? 'active' : ''}`}
@@ -166,7 +191,7 @@ const ParentDashboard = () => {
         {/* My Posts Tab */}
         {activeTab === 'posts' && (
           <div className="posts-list">
-            {mockPosts.map((post) => (
+            {posts.map((post) => (
               <div key={post.id} className="post-card">
                 <div className="post-header">
                   <h3>{post.title}</h3>
@@ -193,7 +218,7 @@ const ParentDashboard = () => {
                 </div>
               </div>
             ))}
-            {mockPosts.length === 0 && (
+            {posts.length === 0 && (
               <div className="empty-state">
                 <p>📭 Bạn chưa có bài đăng nào</p>
                 <Link to="/posts/create" className="btn-create">
@@ -207,7 +232,7 @@ const ParentDashboard = () => {
         {/* Applications Tab */}
         {activeTab === 'applications' && (
           <div className="applications-list">
-            {mockApplications.map((app) => (
+            {applications.map((app) => (
               <div key={app.id} className="application-card">
                 <div className="app-header">
                   <img src={app.tutorAvatar} alt={app.tutorName} className="tutor-avatar" />
@@ -258,7 +283,7 @@ const ParentDashboard = () => {
                 )}
               </div>
             ))}
-            {mockApplications.length === 0 && (
+            {applications.length === 0 && (
               <div className="empty-state">
                 <p>📭 Chưa có đơn ứng tuyển nào</p>
               </div>

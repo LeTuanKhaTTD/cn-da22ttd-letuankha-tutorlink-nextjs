@@ -1,0 +1,404 @@
+/* ========================================
+   HOMEPAGE - FIGMA DESIGN IMPLEMENTATION
+   Modern, clean design matching Figma mockups
+   ======================================== */
+
+.home-page {
+  min-height: 100vh;
+}
+
+/* ========== HERO SECTION ========== */
+.hero-figma {
+  position: relative;
+  padding: var(--space-24) 0 var(--space-20);
+  background: linear-gradient(135deg, #93c5fd 0%, #dbeafe 50%, #f0f9ff 100%);
+  overflow: hidden;
+}
+
+.hero-figma::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.hero-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-12);
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Hero Left Content */
+.hero-left {
+  max-width: 560px;
+}
+
+.hero-badge-figma {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border: 2px solid #fbbf24;
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: #78350f;
+  margin-bottom: var(--space-6);
+  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.3);
+}
+
+.hero-badge-figma .icon {
+  font-size: var(--text-base);
+}
+
+.hero-title-figma {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: #1e3a8a;
+  margin-bottom: var(--space-5);
+  letter-spacing: -0.02em;
+}
+
+.hero-title-figma .highlight {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle-figma {
+  font-size: var(--text-lg);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-gray-600);
+  margin-bottom: var(--space-8);
+}
+
+.hero-cta-buttons {
+  display: flex;
+  gap: var(--space-4);
+  margin-bottom: var(--space-10);
+}
+
+.hero-stats-figma {
+  display: flex;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+}
+
+.hero-stat-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.hero-stat-icon {
+  font-size: var(--text-2xl);
+}
+
+.hero-stat-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-stat-value {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: #1e3a8a;
+  line-height: 1;
+}
+
+.hero-stat-label {
+  font-size: var(--text-sm);
+  color: #475569;
+  font-weight: 500;
+}
+
+/* Hero Right - Search Card */
+.hero-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hero-search-card {
+  width: 100%;
+  max-width: 480px;
+  background: white;
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.2), 
+              0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 3px solid #3b82f6;
+}
+
+.search-card-title {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: var(--space-6);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.search-card-title .icon {
+  color: #3b82f6;
+  font-size: 1.5rem;
+}
+
+.search-form-group {
+  margin-bottom: var(--space-5);
+}
+
+.search-form-label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: var(--space-2);
+}
+
+.search-form-input,
+.search-form-select {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-base);
+  border: 2px solid #e2e8f0;
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-base);
+  background: white;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.search-form-input:focus,
+.search-form-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.search-form-input::placeholder {
+  color: var(--color-gray-400);
+}
+
+.search-submit-btn {
+  width: 100%;
+  padding: var(--space-4);
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: var(--text-base);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-primary);
+}
+
+.search-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.4);
+}
+
+/* ========== BENEFITS SECTION ========== */
+.benefits-section-figma {
+  padding: var(--space-20) 0;
+  background: white;
+}
+
+.section-header-figma {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto var(--space-12);
+}
+
+.section-title-figma {
+  font-size: var(--text-4xl);
+  font-weight: 800;
+  color: #1e3a8a;
+  margin-bottom: var(--space-4);
+}
+
+.section-subtitle-figma {
+  font-size: var(--text-lg);
+  color: #475569;
+  line-height: var(--line-height-relaxed);
+  font-weight: 500;
+}
+
+.benefits-grid-figma {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-6);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+.benefit-card-figma {
+  text-align: center;
+  padding: var(--space-8) var(--space-6);
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 2px solid #3b82f6;
+  border-radius: var(--radius-xl);
+  transition: all var(--transition-base);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+}
+
+.benefit-card-figma:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(59, 130, 246, 0.2);
+  border-color: #2563eb;
+}
+
+.benefit-icon-figma {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto var(--space-4);
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-3xl);
+  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+}
+
+.benefit-title-figma {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: var(--space-2);
+}
+
+.benefit-text-figma {
+  font-size: var(--text-sm);
+  color: #475569;
+  line-height: var(--line-height-relaxed);
+  font-weight: 500;
+}
+
+/* ========== FEATURED TUTORS SECTION ========== */
+.featured-section-figma {
+  padding: var(--space-20) 0;
+  background: var(--color-gray-50);
+}
+
+.section-header-with-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto var(--space-10);
+  padding: 0 var(--space-6);
+}
+
+.section-header-left h2 {
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: var(--space-2);
+}
+
+.section-header-left p {
+  font-size: var(--text-base);
+  color: #475569;
+  font-weight: 500;
+}
+
+.view-all-link {
+  padding: var(--space-3) var(--space-6);
+  background: white;
+  color: #3b82f6;
+  border: 2px solid #3b82f6;
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-decoration: none;
+  transition: all var(--transition-base);
+}
+
+.view-all-link:hover {
+  background: #3b82f6;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.tutors-grid-figma {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+  
+  .hero-title-figma {
+    font-size: 3rem;
+  }
+  
+  .hero-right {
+    justify-content: center;
+  }
+  
+  .benefits-grid-figma {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .tutors-grid-figma {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-title-figma {
+    font-size: 2.5rem;
+  }
+  
+  .hero-cta-buttons {
+    flex-direction: column;
+  }
+  
+  .hero-stats-figma {
+    justify-content: space-between;
+  }
+  
+  .hero-stat-item {
+    flex: 1;
+    min-width: 140px;
+  }
+  
+  .benefits-grid-figma {
+    grid-template-columns: 1fr;
+  }
+  
+  .tutors-grid-figma {
+    grid-template-columns: 1fr;
+  }
+  
+  .section-header-with-link {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+}
