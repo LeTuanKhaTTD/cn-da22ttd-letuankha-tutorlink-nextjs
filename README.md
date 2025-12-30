@@ -108,7 +108,6 @@
 - **Foreign Keys** - Đảm bảo tính toàn vẹn dữ liệu
 
 ### Tools & DevOps
-- **XAMPP** - Local MySQL Server
 - **Concurrently** - Run multiple commands
 - **Git** - Version Control
 - **VS Code** - IDE với ESLint + Prettier
@@ -121,7 +120,6 @@
 
 - **Node.js** >= 18.x
 - **npm** >= 9.x
-- **XAMPP** (hoặc MySQL 8.0)
 - **Windows/MacOS/Linux**
 
 ### 🚀 Hướng Dẫn Cài Đặt (3 Bước)
@@ -135,20 +133,8 @@ cd DOAN_CHUYENNGANG
 npm install
 ```
 
-#### Bước 2: Setup Database
-```bash
-# 1. Mở XAMPP Control Panel
-# 2. Start Apache + MySQL
-# 3. Mở phpMyAdmin: http://localhost/phpmyadmin
-# 4. Import file: database/tutorlink_complete.sql
-```
 
-#### Bước 3: Chạy Dự Án
-```bash
-# Cách 1: Double-click file START.bat (Windows)
-# Hoặc
-
-# Cách 2: Chạy bằng lệnh
+####Chạy Dự Án
 npm run dev
 
 # ✅ Backend: http://localhost:5000
@@ -503,7 +489,7 @@ Cảm ơn:
 <div align="center">
   <strong>🎓 Đồ án chuyên ngành - Trường Đại học Trà Vinh</strong>
   <br>
-  Made with ❤️ by Lê Tuấn Khá
+  Made with ❤️ by Lê Tuấn Kha
 </div>
 │   │   └── mockData.ts      # 5 gia sư TVU mẫu
 │   ├── layouts/             # Layout components
@@ -671,7 +657,7 @@ Chúng tôi luôn chào đón mọi đóng góp! Để đóng góp:
 
 📧 Email: [110122086@sv.tvu.edu.vn](mailto:110122086@sv.tvu.edu.vn)  
 🔗 GitHub: [@LeTuanKhaTTD](https://github.com/LeTuanKhaTTD)  
-💼 LinkedIn: [Lê Tuấn Khá](https://linkedin.com/in/letuankha)
+💼 LinkedIn: [Lê Tuấn Kha](https://linkedin.com/in/letuankha)
 
 ---
 
@@ -690,13 +676,6 @@ Dự án này được phân phối dưới **MIT License**. Xem file [LICENSE](
 - 📧 **Email**: 110122086@sv.tvu.edu.vn
 
 ---
-
-<div align="center">
-  <p>Được phát triển với ❤️ tại Đại học Trà Vinh</p>
-  <p>© 2025 TutorLink. All rights reserved.</p>
-  
-  ⭐ **Nếu thấy dự án hữu ích, hãy cho một Star nhé!** ⭐
-</div
 import reactDom from 'eslint-plugin-react-dom'
 
 export default defineConfig([
